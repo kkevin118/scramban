@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCRAMBAN - Equipo</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --accent-hover: #2980b9;
+            --background: #f5f7fa;
+            --white: #ffffff;
+            --light-gray: #e0e0e0;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --success: #2ecc71;
+            --nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --section-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .inicio-header {
+            background-color: var(--white);
+            color: var(--primary);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: var(--nav-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .inicio-header img {
+            height: 70px;
+            margin-bottom: 10px;
+        }
+
+        .inicio-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .inicio-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .inicio-button-container {
+            margin-top: 1.5rem;
+        }
+
+        .inicio-button {
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .inicio-button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .main-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 95%;
+            max-width: 1400px;
+            margin: 1rem auto;
+            padding: 0 1rem;
+        }
+
+        .mostrar-contenido .main-container {
+            display: flex;
+        }
+
+        .mostrar-contenido .inicio-header {
+            display: none;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: var(--white);
+            box-shadow: var(--nav-shadow);
+            padding: 0.8rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        nav a {
+            padding: 0.6rem 1.2rem;
+            background-color: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--light-gray);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            background-color: var(--accent);
+            color: var(--white);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        nav a:first-child {
+            background-color: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .team-header {
+            background-color: var(--accent);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .team-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .team-member {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--section-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-member img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--accent);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background-color: var(--white);
+            width: 100%;
+            margin-top: auto;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding: 0.8rem 0.5rem;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            nav a {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .team-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .team-member {
+                padding: 1.5rem;
+            }
+
+            .team-member img {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-member img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="inicio-header">
+        <img src="logo-de-SENA-png-Negro-300x300-1 (1).png" alt="Logo SENA">
+        <h1>Bienvenido a SCRAMBAN</h1>
+        <p>Proyecto Integrador | SENA</p>
+        <div class="inicio-button-container">
+            <button class="inicio-button" onclick="document.body.classList.add('mostrar-contenido')">Iniciar Proyecto</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <nav id="mainNav">
+            <a href="#">Inicio</a>
+            <a href="#corporativo">Corporativo</a>
+            <a href="#bd">Base de Datos</a>
+            <a href="#3d">Mundo 3D</a>
+            <a href="#twin">Digital Twin</a>
+            <a href="#sensores">Sensores</a>
+            <a href="#equipo">Equipo</a>
+            <a href="#cronograma">Cronograma</a>
+            <a href="#bitacora">Bitácora</a>
+            <a href="#prototipo">Prototipo</a>
+            <a href="#ia">IA</a>
+            <a href="#evidencias">Evidencias</a>
+        </nav>
+
+        <!-- Sección de Equipo -->
+        <section id="equipo-section" class="content-section" style="display: none;">
+            <div class="team-header">
+                <h2>Conoce a Nuestro Equipo Excepcional</h2>
+                <p>Expertos dedicados que hacen posible nuestro éxito</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="Henao.jpg" alt="Juan Manuel Henao Mangones">
+                    <h3>Juan Manuel Henao Mangones</h3>
+                    <p>Juan es una persona altamente colaborativa y creativa, siempre aportando ideas innovadoras y soluciones ingeniosas al equipo. Su dedicación es clave para nuestro desarrollo.</p>
+                </div>
+
+                <div class="team-member">
+                    <img src="kevin.jpg" alt="Kevin Alejandro Mazo Misas">
+                    <h3>Kevin Alejandro Mazo Misas</h3>
+                    <p>Kevin es nuestro especialista en desarrollo backend, con una habilidad excepcional para construir sistemas robustos y eficientes. Su experiencia garantiza la solidez de nuestra infraestructura.</p>
+                </div>
+
+                <div class="team-member">
+                    <img src="SAMMY.jpg" alt="Samuel Zapata Rios">
+                    <h3>Samuel Zapata Rios</h3>
+                    <p>Samuel es nuestro talentoso diseñador UX/UI, apasionado por crear experiencias de usuario intuitivas y atractivas. Su enfoque en el detalle y la usabilidad eleva la calidad de nuestros productos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Otras secciones... -->
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SCRAMBAN | Servicio Nacional de Aprendizaje - SENA</p>
+    </footer>
+
+    <script>
+        // Mostrar contenido principal al hacer clic en "Iniciar"
+        document.querySelector('.inicio-button').addEventListener('click', () => {
+            document.body.classList.add('mostrar-contenido');
+            showSection('inicio');
+        });
+
+        // Navegación entre secciones
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                
+                const target = this.getAttribute('href').substring(1);
+                showSection(target);
+            });
+        });
+
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Mostrar la sección seleccionada
+            const targetSection = document.getElementById(sectionId + '-section');
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                
+                // Scroll suave a la sección
+                setTimeout(() => {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+            }
+        }
+
+        // Recargar página al hacer clic en "Inicio"
+        document.querySelector('nav a[href="#"]').addEventListener('click', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>
