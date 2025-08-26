@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precios de Frutas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #2ecc71;
+            --dark-green: #27ae60;
+            --light-green: #d1ffde;
+            --yellow: #f1c40f;
+            --orange: #e67e22;
+            --white: #ffffff;
+            --dark: #333;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-green);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .fruit-entry {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 10px;
+            background-color: var(--light-green);
+            border-radius: 8px;
+            border: 1px solid var(--green);
+        }
+
+        .fruit-entry label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark-green);
+        }
+
+        .fruit-entry input {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid var(--dark-green);
+            border-radius: 5px;
+            text-align: right;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .total-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-top: 3px solid var(--green);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-green);
+            background-color: var(--white);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .total-section span {
+            color: var(--orange);
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Precios de Frutas 🍎🍓🍌</h1>
+
+        <div class="fruit-list">
+            <div class="fruit-entry">
+                <label for="manzana">Manzanas (kg):</label>
+                <input type="number" id="manzana" class="fruit-price" value="0" min="0">
+            </div>
+            <div class="fruit-entry">
+                <label for="platano">Plátanos (kg):</label>
+                <input type="number" id="platano" class="fruit-price" value="0" min="0">
+            </div>
+            <div class="fruit-entry">
+                <label for="naranja">Naranjas (kg):</label>
+                <input type="number" id="naranja" class="fruit-price" value="0" min="0">
+            </div>
+            <div class="fruit-entry">
+                <label for="uvas">Uvas (kg):</label>
+                <input type="number" id="uvas" class="fruit-price" value="0" min="0">
+            </div>
+            <div class="fruit-entry">
+                <label for="fresa">Fresas (kg):</label>
+                <input type="number" id="fresa" class="fruit-price" value="0" min="0">
+            </div>
+        </div>
+
+        <div class="total-section">
+            Precio Total: $<span id="total-price">0.00</span>
+        </div>
+    </div>
+
+    <script>
+        const fruitPrices = document.querySelectorAll('.fruit-price');
+        const totalPriceElement = document.getElementById('total-price');
+
+        // Función para calcular el total
+        function calculateTotal() {
+            let total = 0;
+            fruitPrices.forEach(input => {
+                const price = parseFloat(input.value) || 0;
+                total += price;
+            });
+            totalPriceElement.textContent = total.toFixed(2);
+        }
+
+        // Event listener para actualizar el total al cambiar cualquier valor
+        fruitPrices.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+
+        // Calcular el total inicial al cargar la página
+        calculateTotal();
+    </script>
+</body>
+</html>

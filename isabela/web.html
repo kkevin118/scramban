@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DATAKEVIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-blue: #001f3f;
+            --medium-blue: #0074D9;
+            --light-blue: #7FDBFF;
+            --button-blue: #0056b3;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-blue);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--medium-blue);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--light-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--light-blue);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .form-container, .table-container {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-container h2, .table-container h2 {
+            color: var(--light-blue);
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: .5rem;
+            color: var(--light-blue);
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+        }
+
+        input::placeholder {
+            color: var(--button-blue);
+        }
+
+        button {
+            background-color: var(--button-blue);
+            color: var(--white);
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #003366;
+            transform: scale(1.05);
+        }
+
+        #data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        #data-table th, #data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-blue);
+        }
+
+        #data-table th {
+            background-color: var(--button-blue);
+            color: var(--white);
+        }
+
+        #data-table td {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .delete-btn {
+            background-color: #ff4136;
+            color: var(--white);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #cc2a20;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DATAKEVIN</h1>
+
+        <div class="form-container">
+            <h2>Registrar Datos</h2>
+            <form id="data-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" required>
+                </div>
+                <div class="form-group">
+                    <label for="peso">Peso (kg):</label>
+                    <input type="number" step="0.1" id="peso" required>
+                </div>
+                <button type="submit">📝 Ingresar</button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2>Datos Registrados</h2>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Edad</th>
+                        <th>Peso (kg)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="data-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('data-form');
+        const dataBody = document.getElementById('data-body');
+        let data = [];
+
+        // Función para renderizar la tabla con los datos
+        function renderTable() {
+            dataBody.innerHTML = '';
+            data.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.nombre}</td>
+                    <td>${entry.edad}</td>
+                    <td>${entry.peso}</td>
+                    <td><button class="delete-btn" onclick="deleteData(${index})">🗑️ Borrar</button></td>
+                `;
+                dataBody.appendChild(row);
+            });
+        }
+
+        // Manejador del formulario para enviar datos
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newEntry = {
+                nombre: document.getElementById('nombre').value,
+                edad: document.getElementById('edad').value,
+                peso: document.getElementById('peso').value
+            };
+            data.push(newEntry);
+            form.reset();
+            renderTable(); // Vuelve a cargar la tabla para mostrar el nuevo registro
+        });
+
+        // Función para borrar un registro
+        function deleteData(index) {
+            data.splice(index, 1);
+            renderTable(); // Vuelve a cargar la tabla
+        }
+
+        // Cargar la tabla al iniciar la página
+        document.addEventListener('DOMContentLoaded', renderTable);
+    </script>
+</body>
+</html>
